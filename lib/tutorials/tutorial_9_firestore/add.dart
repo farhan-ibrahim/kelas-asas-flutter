@@ -10,13 +10,14 @@ class AddContactPage extends StatefulWidget {
 }
 
 class _AddContactPageState extends State<AddContactPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController companyController = TextEditingController();
   ContactRepository repository = ContactRepository();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController companyController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Contact'),
@@ -73,7 +74,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     phone: phoneController.text,
                     company: companyController.text,
                   ))
-                  .then((_) => Navigator.pop(context));
+                  .then((_) => Navigator.pop(context, true));
             },
             child: const Text('Add'),
           ),

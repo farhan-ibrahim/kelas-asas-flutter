@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_app/tutorials/tutorial_9_firestore/model.dart';
 import 'package:my_flutter_app/tutorials/tutorial_9_firestore/repository.dart';
 
-class AddContactPage extends StatefulWidget {
-  const AddContactPage({super.key});
+class EditContactPage extends StatefulWidget {
+  final Contact contact;
+  const EditContactPage({super.key, required this.contact});
 
   @override
-  State<AddContactPage> createState() => _AddContactPageState();
+  State<EditContactPage> createState() => _EditContactPageState();
 }
 
-class _AddContactPageState extends State<AddContactPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController companyController = TextEditingController();
+class _EditContactPageState extends State<EditContactPage> {
   ContactRepository repository = ContactRepository();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController =
+        TextEditingController(text: widget.contact.name);
+    TextEditingController phoneController =
+        TextEditingController(text: widget.contact.phone);
+    TextEditingController companyController =
+        TextEditingController(text: widget.contact.company);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Contact'),
@@ -68,14 +72,15 @@ class _AddContactPageState extends State<AddContactPage> {
           ElevatedButton(
             onPressed: () async {
               await repository
-                  .addContact(Contact(
+                  .updateContact(Contact(
+                    id: widget.contact.id,
                     name: nameController.text,
                     phone: phoneController.text,
                     company: companyController.text,
                   ))
-                  .then((_) => Navigator.pop(context));
+                  .then((_) => Navigator.pop(context, true));
             },
-            child: const Text('Add'),
+            child: const Text('Update'),
           ),
         ]),
       ),

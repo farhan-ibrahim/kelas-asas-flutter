@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Contact {
-  final String id;
+  final String? id;
   final String name;
   final String phone;
   final String company;
 
   Contact({
-    required this.id,
+    this.id,
     required this.name,
     required this.phone,
     required this.company,
@@ -15,7 +15,6 @@ class Contact {
 
   toJson() {
     return {
-      'id': id,
       'Name': name,
       'Phone': phone,
       'Company': company,
