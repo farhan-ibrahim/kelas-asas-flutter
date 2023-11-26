@@ -21,6 +21,7 @@ class _EditContactPageState extends State<EditContactPage> {
         TextEditingController(text: widget.contact.phone);
     TextEditingController companyController =
         TextEditingController(text: widget.contact.company);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Contact'),

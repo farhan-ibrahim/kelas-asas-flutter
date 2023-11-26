@@ -19,3 +19,84 @@ void main() async {
     },
   ));
 }
+
+class TestWidget extends StatefulWidget {
+  const TestWidget({super.key});
+
+  @override
+  State<TestWidget> createState() => _TestWidgetState();
+}
+
+class _TestWidgetState extends State<TestWidget> {
+  TextEditingController todoController = TextEditingController();
+
+  List todos = [
+    "Cuci",
+    "Sapu sampah",
+    "Buang sampah",
+    "Sidai baju",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("To Do"),
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(children: [
+              TextField(
+                controller: todoController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'What to do ?',
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    todos.insert(0, todoController.text);
+                  });
+                  todoController.clear();
+                  FocusScope.of(context).unfocus();
+                },
+                child: const Text('Add'),
+              ),
+            ]),
+          ),
+          Expanded(
+            child: ListView(
+              children: todos
+                  .map((todo) => Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blueGrey[100],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(todo),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  todos.remove(todo);
+                                });
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

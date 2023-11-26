@@ -20,7 +20,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     void onPressEdit(Contact item) {
-      Navigator.pushNamed(context, '/edit', arguments: item);
+      Navigator.pushNamed(context, '/edit', arguments: item).then(
+        (value) => repository.getContacts().then(
+              (value) => setState(() {}),
+            ),
+      );
     }
 
     return Scaffold(
@@ -35,37 +39,40 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             return ListView(
               children: snapshot.data!
-                  .map((Contact item) => Container(
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  .map(
+                    (Contact item) => Container(
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () => onPressEdit(item),
+                            icon: const Icon(Icons.edit_outlined),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              IconButton(
-                                onPressed: () => onPressEdit(item),
-                                icon: const Icon(Icons.edit_outlined),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(item.name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(item.company),
-                                  Text(item.phone),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () => onPressDelete(item),
-                                icon: const Icon(Icons.delete_outline),
-                              ),
-                            ]),
-                      ))
+                              Text(item.name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text(item.company),
+                              Text(item.phone),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () => onPressDelete(item),
+                            icon: const Icon(Icons.delete_outline),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
             );
           } else {
@@ -75,8 +82,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/add').then((value) =>
-              repository.getContacts().then((value) => setState(() {})));
+          Navigator.pushNamed(context, '/add').then(
+            (value) => repository.getContacts().then(
+                  (value) => setState(() {}),
+                ),
+          );
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add),
